@@ -2,17 +2,11 @@
 
 namespace Razorpay\Slack\Laravel;
 
+use Illuminate\Contracts\Support\DeferrableProvider;
 use RuntimeException;
 
-class ServiceProvider extends \Illuminate\Support\ServiceProvider
+class ServiceProvider extends \Illuminate\Support\ServiceProvider implements DeferrableProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
     /**
      * The actual provider.
      *
@@ -34,6 +28,30 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     }
 
     /**
+     * Return the service provider for the particular Laravel version.
+     *
+     * @return mixed
+     */
+    private function getProvider()
+    {
+        $app = $this->app;
+
+        $version = intval($app::VERSION);
+
+        switch ($version) {
+            case 4:
+                return new ServiceProviderLaravel4($app);
+
+            case 5:
+            case 6:
+                return new ServiceProviderLaravel5($app);
+
+            default:
+                throw new RuntimeException('Your version of Laravel is not supported');
+        }
+    }
+
+    /**
      * Bootstrap the application events.
      *
      * @return void
@@ -51,30 +69,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function register()
     {
         return $this->provider->register();
-    }
-
-    /**
-     * Return the service provider for the particular Laravel version.
-     *
-     * @return mixed
-     */
-    private function getProvider()
-    {
-        $app = $this->app;
-
-        $version = intval($app::VERSION);
-
-        switch ($version) {
-            case 4:
-              return new ServiceProviderLaravel4($app);
-
-            case 5:
-            case 6:
-              return new ServiceProviderLaravel5($app);
-
-            default:
-              throw new RuntimeException('Your version of Laravel is not supported');
-        }
     }
 
     /**
