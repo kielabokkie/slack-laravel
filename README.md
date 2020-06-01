@@ -1,5 +1,24 @@
 # Slack for Laravel
 
+> Please note that this is an exact copy of the [razorpay/slack-laravel](https://github.com/razorpay/slack-laravel) package with some small changes to make it work for Laravel 6.x. Changes were done by [@tiran133](https://github.com/tiran133).
+
+To use this package instead of the standard razorpay one just add this to your `composer.json` file:
+
+```json
+"repositories": [
+    {
+        "type": "git",
+        "url": "https://github.com/kielabokkie/slack-laravel.git"
+    }
+],
+```
+
+Last thing to do is remove the `razorpay/slack-laravel` entry from the require array and replace it with `"kielabokkie/slack-laravel": "dev-master",`.
+
+When you run `composer update` it will remove the razorpay package and replace it with our customised one.
+
+---
+
 This package allows you to use [Slack for PHP](https://github.com/razorpay/slack) easily and elegantly in your Laravel 4 or 5 app. Read the instructions below to get setup, and then head on over to [Slack for PHP](https://github.com/razorpay/slack) for usage details.
 
 ## Requirements
