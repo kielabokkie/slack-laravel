@@ -44,6 +44,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider implements Def
 
             case 5:
             case 6:
+            case 7:
                 return new ServiceProviderLaravel5($app);
 
             default:
